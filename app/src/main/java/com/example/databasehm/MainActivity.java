@@ -1,6 +1,7 @@
 package com.example.databasehm;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,8 +27,18 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        NoteDatabase database = NoteDatabase.getInstance(this);
+        NoteDAO noteDao = database.noteDao();
+        
         btn = findViewById(R.id.button);
         tv = findViewById(R.id.textView);
+        Random rn = new Random();
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noteDao.getNoteByID(rn.nextInt());
+            }
+        });
     }
 }

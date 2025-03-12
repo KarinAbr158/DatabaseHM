@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 public class Note {
     @PrimaryKey(autoGenerate = true)
     private int id;
+
     private Integer num;
     private String sentence;
     private String percents;
