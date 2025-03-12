@@ -15,10 +15,11 @@ import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
-    Button btn;
     TextView tv;
+    Button btn;
     Random rn;
+    List<Note> notes;
+    NoteDAO noteDao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,28 +30,28 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         NoteDatabase database = NoteDatabase.getInstance(this);
-        NoteDAO noteDao = database.noteDao();
-        
-        btn = findViewById(R.id.button);
-        tv = findViewById(R.id.textView);
+        noteDao = database.noteDao();
         rn = new Random();
-
+        tv = findViewById(R.id.textView);
+        btn = findViewById(R.id.button);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                noteDao.insert(new Note("idk what to write", 16, "50%"));
-                noteDao.insert(new Note("maybe now i'll know what to write", 5, "77%"));
+                if (noteDao.getAllInfo().isEmpty()) {
+                    noteDao.insert(new Note("alon the meh", 56, "10%"));
+                    noteDao.insert(new Note("ben the OG", 100000, "30%"));
+                    noteDao.insert(new Note("karin the GOAT", 1, "40%"));
+                }
             }
-        });
-        List<Note> notes = noteDao.getAllInfo();
-
-                btn.setOnClickListener(new View.OnClickListener() {
+        }).start();
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Note temp = notes.get(rn.nextInt(notes.size()));
-                tv.setText(temp.toString());
+                notes = noteDao.getAllInfo();
+                int temp = rn.nextInt(notes.size());
+                Note note = notes.get(temp);
+                tv.setText(note.toString());
             }
         });
     }
