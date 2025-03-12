@@ -11,12 +11,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btn;
     TextView tv;
+    Random rn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +29,28 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         NoteDatabase database = NoteDatabase.getInstance(this);
         NoteDAO noteDao = database.noteDao();
         
         btn = findViewById(R.id.button);
         tv = findViewById(R.id.textView);
-        Random rn = new Random();
+        rn = new Random();
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                noteDao.insert(new Note("idk what to write", 16, "50%"));
+                noteDao.insert(new Note("maybe now i'll know what to write", 5, "77%"));
+            }
+        });
+        List<Note> notes = noteDao.getAllInfo();
+
+                btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                noteDao.getNoteByID(rn.nextInt());
+                Note temp = notes.get(rn.nextInt(notes.size()));
+                tv.setText(temp.toString());
             }
         });
     }

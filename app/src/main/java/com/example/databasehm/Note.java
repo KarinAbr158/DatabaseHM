@@ -12,6 +12,12 @@ public class Note {
     private String sentence;
     private String percents;
 
+    public Note(String s, int i, String p) {
+        this.num = i;
+        this.percents = p;
+        this.sentence = s;
+    }
+
     @Override
     public String toString() {
         return "Note{" +
