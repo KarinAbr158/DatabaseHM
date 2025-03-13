@@ -35,16 +35,12 @@ public class MainActivity extends AppCompatActivity {
         rn = new Random();
         tv = findViewById(R.id.textView);
         btn = findViewById(R.id.button);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (noteDao.getAllInfo().isEmpty()) {
-                    noteDao.insert(new Note("alon the meh", 56, "10%"));
-                    noteDao.insert(new Note("ben the OG", 100000, "30%"));
-                    noteDao.insert(new Note("karin the GOAT", 1, "40%"));
-                }
-            }
-        }).start();
+        Note a = new Note("alon the meh", 56, "10%");
+        Note b = new Note("ben the OG", 100000, "30%");
+        Note c = new Note("karin the GOAT", 1, "40%");
+        noteDao.insert(a);
+        noteDao.insert(b);
+        noteDao.insert(c);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
