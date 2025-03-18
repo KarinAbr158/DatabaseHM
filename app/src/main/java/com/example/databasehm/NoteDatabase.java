@@ -16,6 +16,7 @@ public abstract class NoteDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             NoteDatabase.class,
                             "note_database")
+                    .allowMainThreadQueries()
                     .build();
         }
         return instance;
